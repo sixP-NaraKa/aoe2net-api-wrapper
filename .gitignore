@@ -126,5 +126,6 @@ dmypy.json
 
 # individual files for testing, like main.py
 main.py
+main.*
 .idea/
 idea/
