@@ -129,4 +129,4 @@ main.py
 main.*
 .idea/
 idea/
-main.py
+*.txt
