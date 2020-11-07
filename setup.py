@@ -10,7 +10,7 @@ setup(
     description="A simple and basic Python wrapper for the https://aoe2.net/#api API.",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="ENTER_GITHUB_LINK_HERE",
+    url="https://github.com/sixP-NaraKa/aoe2net-api-wrapper",
     license="MIT",
     author="sixP-NaraKa",
     author_email="sixpaths-naraka@protonmail.com",
