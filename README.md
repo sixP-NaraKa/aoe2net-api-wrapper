@@ -10,4 +10,6 @@
  
  - `requests` >= 2.20.0
  
- See the documentation on the provided functions here: [documentation page.](docs/docs.md)
+ Documentation
+ -
+ See the documentation on the provided functions here on GitHub: [documentation page.](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md)
