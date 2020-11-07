@@ -1,5 +1,4 @@
-# from .aoe import *
-from .aoe_v2 import *
+from .aoe2 import *
 
 __version__ = "0.1.0"
 __doc__ = """
