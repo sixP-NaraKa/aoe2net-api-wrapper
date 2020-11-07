@@ -208,7 +208,7 @@ def ab_get_leaderboard(leaderboard_id: int = 3, start: int = 1, count: int = 10,
 
 def ab_get_open_lobbies(game: str = "aoe2de", json: bool = True):
     """
-    Requests all open ab_lobbies.
+    Requests all open lobbies.
 
     Parameters
     ----------
