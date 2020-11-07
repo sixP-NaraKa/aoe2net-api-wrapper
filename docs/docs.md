@@ -85,7 +85,7 @@
     Parameters:
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'search', 'steam_id' or 'profile_id' are defined.
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 10.
+    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 5.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
@@ -103,7 +103,7 @@
     0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'search', 'steam_id' or 'profile_id' are defined.
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 10.
+    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 100.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
@@ -117,7 +117,7 @@
     If 'since' is not set, only the X amount of current past matches (specified by 'count') will be returned.
  
     Parameters:
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 10.
+    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 5.
     - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True.
     - `**kwargs` -- Additional optional arguments.
