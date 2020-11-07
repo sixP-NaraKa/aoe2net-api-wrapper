@@ -33,7 +33,7 @@ AB_MATCHES = API_BASE + "/matches"
 AB_MATCH = API_BASE + "/match"
 AB_NUMBERS_ONLINE = API_BASE + "/stats/players"
 
-# request nightbot api base urls (api endpoints)
+# request nightbot api base urls (api endpoints) -- ? might not be needed (for the api endpoints above you def don't) ;)
 NB_RANK_DETAILS = NIGHTBOT_BASE + "/rank?"
 NB_RECENT_OPPONENT = NIGHTBOT_BASE + "/opponent?"
 NB_CURRENT_MATCH = NIGHTBOT_BASE + "/match?"
@@ -230,7 +230,7 @@ def ab_get_open_lobbies(game: str = "aoe2de", json: bool = True):
     return _get_request_response(link=AB_LOBBIES, params=params, json=json)
 
 
-def ab_get_last_match(steam_id: str, profile_id: str = "", json: bool = True):
+def ab_get_last_match(steam_id: str = "", profile_id: str = "", json: bool = True):
     """
     Requests the last match a player started playing.
     This will be the current match if they still are in game.
@@ -378,7 +378,7 @@ def ab_get_matches(count: int = 5, json: bool = True, **kwargs):
     return _get_request_response(link=AB_MATCHES, params=params, json=json)
 
 
-def ab_get_match(uuid: str, match_id: str = "", json: bool = True):
+def ab_get_match(uuid: str = "", match_id: str = "", json: bool = True):
     """
     Requests a single match (globally).
 
@@ -399,6 +399,9 @@ def ab_get_match(uuid: str, match_id: str = "", json: bool = True):
     :return:
         the data in json format (if set), otherwise the plain response object.
     """
+
+    if not uuid and not match_id:
+        raise ValueError("Either 'uuid' or 'match_id' required.")
 
     params = {"uuid": uuid, "match_id": match_id}
     return _get_request_response(link=AB_MATCH, params=params, json=json)
