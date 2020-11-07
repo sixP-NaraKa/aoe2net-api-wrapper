@@ -1,8 +1,6 @@
 """
 A simple and basic https://aoe2.net/ api wrapper for sending `GET requests`.
 
-Covers 99% of the aoe2.net API.
-
 Additional data manipulation/extraction from the provided data by this api wrapper has to be done by you, the user.
 
 See https://aoe2.net/#api & https://aoe2.net/#nightbot.
@@ -14,7 +12,7 @@ import logging
 import json as jsn
 
 
-# start and set the logger (in this case as soon as this module has been imported)
+# start and set the logger
 logger = logging.getLogger(__name__)
 
 
@@ -33,7 +31,7 @@ AB_MATCHES = API_BASE + "/matches"
 AB_MATCH = API_BASE + "/match"
 AB_NUMBERS_ONLINE = API_BASE + "/stats/players"
 
-# request nightbot api base urls (api endpoints) -- ? might not be needed (for the api endpoints above you def don't) ;)
+# request nightbot api base urls (api endpoints)
 NB_RANK_DETAILS = NIGHTBOT_BASE + "/rank?"
 NB_RECENT_OPPONENT = NIGHTBOT_BASE + "/opponent?"
 NB_CURRENT_MATCH = NIGHTBOT_BASE + "/match?"
@@ -458,7 +456,7 @@ def nb_get_rank_details(search: str = "", steam_id: str = "", profile_id: str = 
 
         Possible arguments:
 
-        leaderboard_id : `str`
+        leaderboard_id : `int`
             The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
             Possible IDs:
@@ -512,7 +510,7 @@ def nb_get_recent_opp(search: str = "", steam_id: str = "", profile_id: str = ""
 
         Possible arguments:
 
-        leaderboard_id : `str`
+        leaderboard_id : `int`
             The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
             Is used when 'search' is defined.
@@ -568,7 +566,7 @@ def nb_get_current_match(search: str = "", steam_id: str = "", profile_id: str =
 
         Possible arguments:
 
-        leaderboard_id : `str`
+        leaderboard_id : `int`
             The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
             Is used when 'search' is defined.
@@ -630,7 +628,7 @@ def nb_get_current_civs(search: str = "", steam_id: str = "", profile_id: str = 
 
         Possible arguments:
 
-        leaderboard_id : `str`
+        leaderboard_id : `int`
             The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
             Is used when 'search' is defined.
@@ -686,7 +684,7 @@ def nb_get_current_map(search: str = "", steam_id: str = "", profile_id: str = "
 
         Possible arguments:
 
-        leaderboard_id : `str`
+        leaderboard_id : `int`
             The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
             Is used when 'search' is defined.
