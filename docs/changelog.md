@@ -2,7 +2,7 @@
 
 Changes are listed here. The latest version is currently v0.2.0.
 
-v0.2.0
+v0.2.0 (09.11.2020)
 -
 
 - Bug fix:
@@ -23,7 +23,7 @@ a condition has been implemented to check for the maximum amount of possible ent
     - fixed some typos
 
 
-v0.1.0
+v0.1.0 (07.11.2020)
 -
 
 - initial release
