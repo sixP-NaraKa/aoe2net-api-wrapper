@@ -24,3 +24,8 @@
  -
  See the documentation on the provided functions here on GitHub: [documentation page.](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md)
 
+ Changelog
+ -
+ See the changelog here on GitHub: [changelog page.](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/changelog.md)
+
+
