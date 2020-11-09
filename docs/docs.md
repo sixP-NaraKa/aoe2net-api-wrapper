@@ -22,8 +22,8 @@
     Returns a list of strings used by the API.
  
     Parameters:
-    - `game` -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
+    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True
  
  - `ab_get_leaderboard(leaderboard_id, start, count, json, **kwargs)`
@@ -45,6 +45,9 @@
         Takes precedence over both 'search' and 'profile_id'.
         - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.
         
+    Raises:
+    - `Aoe2NetException` - if `count` is more than 10000
+        
     Example:
     
     `import aoe2netapi as aoe`
@@ -59,7 +62,7 @@
  
     Parameters:
     - `game` -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` -- whether the request should be returned in json format. If set to False, the response object will be set. 
+    - `json` -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True
  
  - `ab_get_last_match(steam_id, profile_id, json)`
@@ -75,6 +78,9 @@
     - `profile_id` (str) -- The profile ID. (ex: 459658)
     - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True.
+    
+    Raises:
+    - `Aoe2NetException` - Either `steam_id` or `profile_id` required.
  
  - `ab_get_match_history(start, count, steam_id, profile_id, json)`
  
@@ -91,6 +97,9 @@
     - `profile_id` (str) -- The profile ID. (ex: 459658)
     - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True.
+    
+    Raises:
+    - `Aoe2NetException` - if `count` is more than 1000 || Either `steam_id` or `profile_id` required.
  
  - `ab_get_rating_history(leaderboard_id, start, count, steam_id, profile_id, json)`
  
@@ -109,6 +118,9 @@
     - `profile_id` (str) -- The profile ID. (ex: 459658)
     - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True.
+    
+    Raises:
+    - `Aoe2NetException` - if `count` is more than 1000 || Either `steam_id` or `profile_id` required.
  
  - `ab_get_matches(count, json, **kwargs)`
  
@@ -123,6 +135,9 @@
     - `**kwargs` -- Additional optional arguments.
     
         - `since` (str | int) -- only shows matches after this timestamp. (ex: 1596775000)
+        
+    Raises:
+    - `Aoe2NetException` - if `count` is more than 1000
  
  - `ab_get_match(uuid, match_id, json)`
  
@@ -136,12 +151,16 @@
     - `match_id` (str) -- the Match ID, viewable via a function such as 'ab_get_matches()'.
     - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True.
+    
+    Raises:
+    - `Aoe2NetException` - Either `uuid` or `match_id` required
  
- - `ab_get_num_online(json)`
+ - `ab_get_num_online(game, json)`
  
     Requests the current player numbers of AoE2: DE.
  
     Parameters:
+    - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
     - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
     Defaults to True.
  
@@ -152,19 +171,20 @@
  All the applicable functions which use `**kwargs` `raise KeyError` if the optional additional arguments supplied don't exist.
  
   
- - All the `/api/nightbot` functions use the following parameters:
+ - All the `/api/nightbot` functions use the following parameters and raise the same exception:
  
     - `search` (str) -- specifies a player name to search for. Returns the highest rated player found.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
         Takes precedence over both 'search' and 'profile_id'.
-    - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.
-    - `**kwargs` -- Additional optional arguments.
-     
-        - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-        0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+    - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.     
+    - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
+    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+    
+    Raises:
+    - `Aoe2NetException` - Either `search`, `steam_id` or `profile_id` required.
     
  
- - `nb_get_rank_details(search, steam_id, profile_id, **kwargs)`
+ - `nb_get_rank_details(search, steam_id, profile_id, leaderboard_id)`
  
     Requests the rank details of a player, specified by the 'leaderboard_id'.
 
@@ -177,7 +197,7 @@
     the current rank #1 player of the given optional additional 'leaderboard_id' will be returned by the API.
     
  
- - `nb_get_recent_opp(search, steam_id, profile_id, **kwargs)`
+ - `nb_get_recent_opp(search, steam_id, profile_id, leaderboard_id)`
  
     Requests the rank details of the most recent opponent of a player (1v1 only).
 
@@ -188,7 +208,7 @@
     Returns "Player not found", if no player could be found.
     
  
- - `nb_get_current_match(search, steam_id, profile_id, **kwargs)`
+ - `nb_get_current_match(search, steam_id, profile_id, leaderboard_id, **kwargs)`
  
     Requests details about the last match, or current match if still in game, of a player.
 
@@ -198,8 +218,11 @@
 
     Returns "Player not found", if no player could be found.
     
+    Additional Parameter:
+    - `color` (bool) -- The color the players picked in game to play as. Defaults to False.
+    
  
- - `nb_get_current_civs(search, steam_id, profile_id, **kwargs)`
+ - `nb_get_current_civs(search, steam_id, profile_id, leaderboard_id)`
  
     Requests details about the civilisations from the current (if still in game) or last match.
 
@@ -210,7 +233,7 @@
     Returns "Player not found", if no player could be found.
     
  
- - `nb_get_current_map(search, steam_id, profile_id, **kwargs)`
+ - `nb_get_current_map(search, steam_id, profile_id, leaderboard_id)`
  
     Requests the current map name of a player.
 
