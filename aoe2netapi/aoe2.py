@@ -1,6 +1,8 @@
 """
 A simple and basic https://aoe2.net/ api wrapper for sending `GET requests`.
 
+Available on GitHub: https://github.com/sixP-NaraKa/aoe2net-api-wrapper
+
 Additional data manipulation/extraction from the provided data by this api wrapper has to be done by you, the user.
 
 See https://aoe2.net/#api & https://aoe2.net/#nightbot.
@@ -98,12 +100,14 @@ def _get_request_response(link: str, params: dict = None, json: bool = True):
 
     :raises requests.exceptions.RequestException:
         if a exception happens during the request handling
-    :raises ValueError:
+    :raises Aoe2NetExecution:
         if status code of the response is not 200
     """
 
+    headers = {'content-type': 'application/json;charset=UTF-8'}
+
     try:
-        response = requests.get(link, params=params)
+        response = requests.get(link, params=params, headers=headers)
     except requests.exceptions.RequestException as rer:  # log it and raise 'RequestException'
         logger.exception(rer)
         raise requests.exceptions.RequestException(rer)
@@ -163,7 +167,7 @@ def ab_get_leaderboard(leaderboard_id: int = 3, start: int = 1, count: int = 10,
 
         Ignored if 'search', 'steam_id' or 'profile_id' are defined.
     count : `int`
-        Specifies how many entries of the given ab_leaderboard should be extracted,
+        Specifies how many entries of the given leaderboard should be extracted,
         if able to find with the given criteria. Defaults to 10.
         Max. 10000.
     json : `bool`
@@ -189,7 +193,13 @@ def ab_get_leaderboard(leaderboard_id: int = 3, start: int = 1, count: int = 10,
 
     :return:
         the data in json format (if set), otherwise the plain response object.
+
+    :raises Aoe2NetException:
+        'count' has to be 10000 or less.
     """
+
+    if count > 10000:
+        raise Aoe2NetException("'count' has to be 10000 or less.")
 
     optionals = {
                 "search": "",
@@ -251,10 +261,13 @@ def ab_get_last_match(steam_id: str = "", profile_id: str = "", json: bool = Tru
 
     :return:
         the data in json format (if set), otherwise the plain response object.
+
+    :raises Aoe2NetException:
+        Either 'steam_id' or 'profile_id' required.
     """
 
     if not steam_id and not profile_id:
-        raise ValueError("Either 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'steam_id' or 'profile_id' required.")
 
     params = {"steam_id": steam_id, "profile_id": profile_id}
     return _get_request_response(link=AB_LAST_MATCH, params=params, json=json)
@@ -288,10 +301,16 @@ def ab_get_match_history(start: int = 0, count: int = 5, steam_id: str = "", pro
 
     :return:
         the data in json format (if set), otherwise the plain response object.
+
+    :raises Aoe2NetException:
+        'count' has to be 1000 or less. || Either 'steam_id' or 'profile_id' required.
     """
 
+    if count > 1000:
+        raise Aoe2NetException("'count' has to be 1000 or less.")
+
     if not steam_id and not profile_id:
-        raise ValueError("Either 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'steam_id' or 'profile_id' required.")
 
     params = {"start": start, "count": count, "steam_id": steam_id, "profile_id": profile_id}
     return _get_request_response(link=AB_MATCH_HISTORY, params=params, json=json)
@@ -333,10 +352,16 @@ def ab_get_rating_history(leaderboard_id: int = 3, start: int = 0, count: int = 
 
     :return:
         the data in json format (if set), otherwise the plain response object.
+
+    :raises Aoe2NetException:
+        'count' has to be 10000 or less. || Either 'steam_id' or 'profile_id' required.
     """
 
+    if count > 10000:
+        raise Aoe2NetException("'count' has to be 10000 or less.")
+
     if not steam_id and not profile_id:
-        raise ValueError("Either 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'steam_id' or 'profile_id' required.")
 
     params = {"leaderboard_id": leaderboard_id, "start": start, "count": count, "steam_id": steam_id, "profile_id": profile_id}
     return _get_request_response(link=AB_RATING_HISTORY, params=params, json=json)
@@ -366,7 +391,13 @@ def ab_get_matches(count: int = 5, json: bool = True, **kwargs):
 
     :return:
         the data in json format (if set), otherwise the plain response object.
+
+    :raises Aoe2NetException:
+        'count' has to be 1000 or less.
     """
+
+    if count > 1000:
+        raise Aoe2NetException("'count' has to be 1000 or less.")
 
     optionals = {"since": ""}
     _is_valid_kwarg(kwargs, optionals)
@@ -396,21 +427,30 @@ def ab_get_match(uuid: str = "", match_id: str = "", json: bool = True):
 
     :return:
         the data in json format (if set), otherwise the plain response object.
+
+    :raises Aoe2NetException:
+        Either 'uuid' or 'match_id' required.
     """
 
     if not uuid and not match_id:
-        raise ValueError("Either 'uuid' or 'match_id' required.")
+        raise Aoe2NetException("Either 'uuid' or 'match_id' required.")
 
     params = {"uuid": uuid, "match_id": match_id}
     return _get_request_response(link=AB_MATCH, params=params, json=json)
 
 
-def ab_get_num_online(json: bool = True):
+def ab_get_num_online(game: str = "aoe2de", json: bool = True):
     """
     Requests the current player numbers of AoE2: DE.
 
     Parameters
     ---------
+    game : `str`
+        The game for which to extract the player numbers. Defaults to "aoe2de" if omitted.
+
+        Possible games:
+
+        aoe2hd -> Age of Empires 2: HD Edition, aoe2de -> Age of Empires 2: Definitive Edition
     json : `bool`
         Specifies to the '_get_request_response()' function if the request response should be returned in JSON format.
         Defaults to True.
@@ -419,13 +459,14 @@ def ab_get_num_online(json: bool = True):
         the data in json format (if set), otherwise the plain response object.
     """
 
-    return _get_request_response(link=AB_NUMBERS_ONLINE, json=json)
+    params = {"game": game}
+    return _get_request_response(link=AB_NUMBERS_ONLINE, params=params, json=json)
 
 
 """ ---------------------------------------- NIGHTBOT API CALLS (nb_...) ----------------------------------------"""
 
 
-def nb_get_rank_details(search: str = "", steam_id: str = "", profile_id: str = "", **kwargs):
+def nb_get_rank_details(search: str = "", steam_id: str = "", profile_id: str = "", leaderboard_id: int = 3):
     """
     Requests the rank details of a player, specified by the 'leaderboard_id'.
 
@@ -451,37 +492,29 @@ def nb_get_rank_details(search: str = "", steam_id: str = "", profile_id: str = 
         Takes precedence over 'search'.
 
         Defaults to an empty string.
-    **kwargs : `dict`
-        Additional optional arguments.
+    leaderboard_id : `int`
+        The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
-        Possible arguments:
+        Possible IDs:
 
-        leaderboard_id : `int`
-            The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
-
-            Possible IDs:
-
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+        0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
 
     :return:
         the response.text
+
+    :raises Aoe2NetException:
+        Either 'search', 'steam_id' or 'profile_id' required.
     """
 
     if not search and not steam_id and not profile_id:
-        raise ValueError("Either 'search', 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'search', 'steam_id' or 'profile_id' required.")
 
-    optionals = {
-                "leaderboard_id": 3,
-                }
-    _is_valid_kwarg(kwargs, optionals)
-
-    params = {"flag": "false", "search": search.replace(" ", "+"), "steam_id": steam_id, "profile_id": profile_id}
-    params.update(optionals)
+    params = {"flag": "false", "search": search, "steam_id": steam_id, "profile_id": profile_id, "leaderboard_id": leaderboard_id}
 
     return _get_request_response(link=NB_RANK_DETAILS, params=params, json=False).text
 
 
-def nb_get_recent_opp(search: str = "", steam_id: str = "", profile_id: str = "", **kwargs):
+def nb_get_recent_opp(search: str = "", steam_id: str = "", profile_id: str = "", leaderboard_id: int = 3):
     """
     Requests the rank details of the most recent opponent of a player (1v1 only).
 
@@ -505,39 +538,31 @@ def nb_get_recent_opp(search: str = "", steam_id: str = "", profile_id: str = ""
         Takes precedence over 'search'.
 
         Defaults to an empty string.
-    **kwargs : `dict`
-        Additional optional arguments.
+    leaderboard_id : `int`
+        The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
-        Possible arguments:
+        Is used when 'search' is defined.
 
-        leaderboard_id : `int`
-            The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
+        Possible IDs:
 
-            Is used when 'search' is defined.
-
-            Possible IDs:
-
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+        0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
 
     :return:
         the response.text
+
+    :raises Aoe2NetException:
+        Either 'search', 'steam_id' or 'profile_id' required.
     """
 
     if not search and not steam_id and not profile_id:
-        raise ValueError("Either 'search', 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'search', 'steam_id' or 'profile_id' required.")
 
-    optionals = {
-                "leaderboard_id": 3,
-                }
-    _is_valid_kwarg(kwargs, optionals)
-
-    params = {"flag": "false", "search": search.replace(" ", "+"), "steam_id": steam_id, "profile_id": profile_id}
-    params.update(optionals)
+    params = {"flag": "false", "search": search, "steam_id": steam_id, "profile_id": profile_id, "leaderboard_id": leaderboard_id}
 
     return _get_request_response(link=NB_RECENT_OPPONENT, params=params, json=False).text
 
 
-def nb_get_current_match(search: str = "", steam_id: str = "", profile_id: str = "", **kwargs):
+def nb_get_current_match(search: str = "", steam_id: str = "", profile_id: str = "", leaderboard_id: int = 3, **kwargs):
     """
     Requests details about the last match, or current match if still in game, of a player.
 
@@ -561,37 +586,38 @@ def nb_get_current_match(search: str = "", steam_id: str = "", profile_id: str =
         Takes precedence over 'search'.
 
         Defaults to an empty string.
+    leaderboard_id : `int`
+        The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
+
+        Is used when 'search' is defined.
+
+        Possible IDs:
+
+        0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
     **kwargs : `dict`
         Additional optional arguments.
 
         Possible arguments:
-
-        leaderboard_id : `int`
-            The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
-
-            Is used when 'search' is defined.
-
-            Possible IDs:
-
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
 
         color : `bool`
             The color the players picked in game to play as. Defaults to False.
 
     :return:
         the response.text
+
+    :raises Aoe2NetException:
+        Either 'search', 'steam_id' or 'profile_id' required.
     """
 
     if not search and not steam_id and not profile_id:
-        raise ValueError("Either 'search', 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'search', 'steam_id' or 'profile_id' required.")
 
     optionals = {
-                "leaderboard_id": 3,
                 "color": False
                 }
     _is_valid_kwarg(kwargs, optionals)
 
-    params = {"flag": "false", "search": search.replace(" ", "+"), "steam_id": steam_id, "profile_id": profile_id}
+    params = {"flag": "false", "search": search, "steam_id": steam_id, "profile_id": profile_id, "leaderboard_id": leaderboard_id}
     params.update(optionals)
     color = params.get("color").__str__().lower()
     params["color"] = color
@@ -599,7 +625,7 @@ def nb_get_current_match(search: str = "", steam_id: str = "", profile_id: str =
     return _get_request_response(link=NB_CURRENT_MATCH, params=params, json=False).text
 
 
-def nb_get_current_civs(search: str = "", steam_id: str = "", profile_id: str = "", **kwargs):
+def nb_get_current_civs(search: str = "", steam_id: str = "", profile_id: str = "", leaderboard_id: int = 3):
     """
     Requests details about the civilisations from the current (if still in game) or last match.
 
@@ -623,39 +649,31 @@ def nb_get_current_civs(search: str = "", steam_id: str = "", profile_id: str = 
         Takes precedence over 'search'.
 
         Defaults to an empty string.
-    **kwargs : `dict`
-        Additional optional arguments.
+    leaderboard_id : `int`
+        The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
-        Possible arguments:
+        Is used when 'search' is defined.
 
-        leaderboard_id : `int`
-            The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
+        Possible IDs:
 
-            Is used when 'search' is defined.
-
-            Possible IDs:
-
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+        0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
 
     :return:
         the response.text
+
+    :raises Aoe2NetException:
+        Either 'search', 'steam_id' or 'profile_id' required.
     """
 
     if not search and not steam_id and not profile_id:
-        raise ValueError("Either 'search', 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'search', 'steam_id' or 'profile_id' required.")
 
-    optionals = {
-                "leaderboard_id": 3
-                }
-    _is_valid_kwarg(kwargs, optionals)
-
-    params = {"search": search.replace(" ", "+"), "steam_id": steam_id, "profile_id": profile_id}
-    params.update(optionals)
+    params = {"search": search, "steam_id": steam_id, "profile_id": profile_id, "leaderboard_id": leaderboard_id}
 
     return _get_request_response(link=NB_CURRENT_CIVS, params=params, json=False).text
 
 
-def nb_get_current_map(search: str = "", steam_id: str = "", profile_id: str = "", **kwargs):
+def nb_get_current_map(search: str = "", steam_id: str = "", profile_id: str = "", leaderboard_id: int = 3):
     """
     Requests the current map name of a player.
 
@@ -679,33 +697,25 @@ def nb_get_current_map(search: str = "", steam_id: str = "", profile_id: str = "
         Takes precedence over 'search'.
 
         Defaults to an empty string.
-    **kwargs : `dict`
-        Additional optional arguments.
+    leaderboard_id : `int`
+        The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
 
-        Possible arguments:
+        Is used when 'search' is defined.
 
-        leaderboard_id : `int`
-            The leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM).
+        Possible IDs:
 
-            Is used when 'search' is defined.
-
-            Possible IDs:
-
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+        0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
 
     :return:
         the response.text
+
+    :raises Aoe2NetException:
+        Either 'search', 'steam_id' or 'profile_id' required.
     """
 
     if not search and not steam_id and not profile_id:
-        raise ValueError("Either 'search', 'steam_id' or 'profile_id' required.")
+        raise Aoe2NetException("Either 'search', 'steam_id' or 'profile_id' required.")
 
-    optionals = {
-                "leaderboard_id": 3
-                }
-    _is_valid_kwarg(kwargs, optionals)
-
-    params = {"search": search.replace(" ", "+"), "steam_id": steam_id, "profile_id": profile_id}
-    params.update(optionals)
+    params = {"search": search, "steam_id": steam_id, "profile_id": profile_id, "leaderboard_id": leaderboard_id}
 
     return _get_request_response(link=NB_CURRENT_MAP, params=params, json=False).text
