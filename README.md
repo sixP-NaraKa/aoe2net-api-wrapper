@@ -1,5 +1,5 @@
 # aoe2net-api-wrapper
- A simple and basic https://aoe2.net/ api wrapper for sending `GET requests`.
+ A simple and basic Python 3 https://aoe2.net/ api wrapper for sending `GET requests`.
  
  ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sixp-naraka/aoe2net-api-wrapper?color=g&label=GitHub%20release) ![PyPI](https://img.shields.io/pypi/v/aoe2netapi-wrapper?label=pypi%20version) ![PyPI - Downloads](https://img.shields.io/pypi/dd/aoe2netapi-wrapper?label=pypi%20downloads)
  
