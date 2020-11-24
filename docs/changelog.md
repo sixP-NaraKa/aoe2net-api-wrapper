@@ -1,6 +1,12 @@
 # Changelog
 
-Changes are listed here. The latest version is currently v0.2.0.
+Changes are listed here. The latest version is currently v0.3.0.
+
+v0.3.0 (24.11.2020)
+-
+
+- replaced f-strings with .format() for better backwards-compatibility
+- removed the logging for now, might implement it (better) in the future
 
 v0.2.0 (09.11.2020)
 -

@@ -10,12 +10,7 @@ See https://aoe2.net/#api & https://aoe2.net/#nightbot.
 
 
 import requests
-import logging
 import json as jsn
-
-
-# start and set the logger
-logger = logging.getLogger(__name__)
 
 
 # api base urls
@@ -73,8 +68,7 @@ def _is_valid_kwarg(provided: dict, available: dict):
 
     diff = provided.keys() - available.keys()
     if diff:  # if there are differences
-        msg = f"invalid optional keyword argument passed: {diff}"
-        logger.debug("KeyError, ", msg)
+        msg = "invalid optional keyword argument passed: {}".format(diff)
         raise KeyError(msg)
     available.update(provided)
 
@@ -108,18 +102,15 @@ def _get_request_response(link: str, params: dict = None, json: bool = True):
 
     try:
         response = requests.get(link, params=params, headers=headers)
-    except requests.exceptions.RequestException as rer:  # log it and raise 'RequestException'
-        logger.exception(rer)
+    except requests.exceptions.RequestException as rer:
         raise requests.exceptions.RequestException(rer)
-    if response.status_code != 200:  # log it and raise 'ValueError'
-        msg = f"Expected status code 200 - got {response.status_code}."
-        logger.error(msg=msg)
+    if response.status_code != 200:
+        msg = "Expected status code 200 - got {}.".format(response.status_code)
         raise Aoe2NetException(msg)
     if json:
         try:
             response = response.json()
         except jsn.JSONDecodeError as jde:
-            logger.error(jde)
             raise Aoe2NetException(jde)
     return response
 
