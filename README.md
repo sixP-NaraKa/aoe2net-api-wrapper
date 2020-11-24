@@ -1,6 +1,8 @@
 # aoe2net-api-wrapper
  A simple and basic https://aoe2.net/ api wrapper for sending `GET requests`.
  
+ ![GitHub release (latest by date)](https://img.shields.io/github/v/release/sixp-naraka/aoe2net-api-wrapper?color=g&label=GitHub%20release) ![PyPI](https://img.shields.io/pypi/v/aoe2netapi-wrapper?label=pypi%20version) ![PyPI - Downloads](https://img.shields.io/pypi/dd/aoe2netapi-wrapper?label=pypi%20downloads)
+ 
  See https://aoe2.net/#api and https://aoe2.net/#nightbot for the aoe2.net API (documentation).
  
  This wrapper solely supports requesting the data from the aoe2.net api.
@@ -12,13 +14,17 @@
  
  Installation
  -
- [on PyPi](https://pypi.org/project/aoe2netapi-wrapper/)
+ Available [on PyPi](https://pypi.org/project/aoe2netapi-wrapper/)
  
- `pip install aoe2netapi-wrapper`
+ ```
+ pip install aoe2netapi-wrapper
+ ```
  
- `import aoe2netapi as aoe`
- 
- `print(aoe.__version__)`
+ ```python
+import aoe2netapi as aoe
+
+print(aoe.__version__)
+ ```
  
  Documentation
  -
