@@ -50,10 +50,13 @@
         
     Example:
     
-    `import aoe2netapi as aoe`
+```python
+import aoe2netapi as aoe
      
-    `result = aoe.get_leaderboard(leaderboard_id=3, count=100, json=True)`  
-     --will return the top 100 players of the 1v1 RM leaderboard in JSON format
+result = aoe.ab_get_leaderboard(leaderboard_id=3, count=100, json=True)
+print(result)
+```
+ This will return and print the top 100 players of the 1v1 RM leaderboard in JSON format.
     
     
  - `ab_get_open_lobbies(game, json)`
