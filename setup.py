@@ -6,7 +6,7 @@ with open("README.md") as f:
 
 setup(
     name="aoe2netapi-wrapper",
-    version="0.2.0",
+    version="0.3.0",
     description="A simple and basic Python wrapper for the https://aoe2.net/#api API.",
     long_description=readme,
     long_description_content_type="text/markdown",

@@ -1,6 +1,6 @@
 from .aoe2 import *
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __doc__ = """
 A simple and basic https://aoe2.net/ api wrapper for sending `GET requests`.
 
