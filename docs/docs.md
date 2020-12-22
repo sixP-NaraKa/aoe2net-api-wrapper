@@ -23,7 +23,7 @@
  
     Parameters:
     - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True
  
  - `ab_get_leaderboard(leaderboard_id, start, count, json, **kwargs)`
