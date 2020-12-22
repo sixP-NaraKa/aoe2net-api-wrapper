@@ -36,7 +36,7 @@
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'search', 'steam_id' or 'profile_id' are defined.
     - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 10.
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     - `**kwargs` -- Additional optional arguments.
     
@@ -64,8 +64,8 @@ print(result)
     Requests all open lobbies.
  
     Parameters:
-    - `game` -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True
  
  - `ab_get_last_match(steam_id, profile_id, json)`
@@ -79,7 +79,7 @@ print(result)
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     
     Raises:
@@ -93,12 +93,12 @@ print(result)
  
     Parameters:
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
-    Ignored if 'search', 'steam_id' or 'profile_id' are defined.
+    Ignored if 'steam_id' or 'profile_id' are defined.
     - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 5.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     
     Raises:
@@ -114,12 +114,12 @@ print(result)
     - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
     0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
-    Ignored if 'search', 'steam_id' or 'profile_id' are defined.
+    Ignored if 'steam_id' or 'profile_id' are defined.
     - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 100.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     
     Raises:
@@ -133,7 +133,7 @@ print(result)
  
     Parameters:
     - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 5.
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     - `**kwargs` -- Additional optional arguments.
     
@@ -152,7 +152,7 @@ print(result)
     - `uuid` (str) -- the Match UUID, viewable via a function such as 'ab_get_matches()'. 
     Takes precedence over 'match_id'.
     - `match_id` (str) -- the Match ID, viewable via a function such as 'ab_get_matches()'.
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     
     Raises:
@@ -164,7 +164,7 @@ print(result)
  
     Parameters:
     - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` (bool) -- whether the request should be returned in json format. If set to False, the response object will be returned. 
+    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
  
  
@@ -194,10 +194,6 @@ print(result)
     Either 'search', 'steam_id' or 'profile_id' required.
 
     The request response is only available as pure text.
-
-    Returns "Player not found", if no player could be found with the given criteria.
-    With some combinations of 'search', 'steam_id' and 'profile_id', if nothing could be found for example,
-    the current rank #1 player of the given optional additional 'leaderboard_id' will be returned by the API.
     
  
  - `nb_get_recent_opp(search, steam_id, profile_id, leaderboard_id)`
