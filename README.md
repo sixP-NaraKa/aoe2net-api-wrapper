@@ -39,7 +39,7 @@ print(rank_details)
 # ...
  ```
 
- v1.0.0 and onwards (see issue #1 and the changelog) there are two different ways, which lead to the same outcome:
+ v1.0.0 and onwards (see issue [#1](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/issues/1) and the [changelog](https://github.com/sixP-NaraKa/aoe2net-api-wrapper#changelog)) there are two different ways, which lead to the same outcome:
  
  1.) importing the usual way
  ```python
