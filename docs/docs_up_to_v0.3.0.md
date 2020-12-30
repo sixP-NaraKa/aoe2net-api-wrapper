@@ -1,6 +1,6 @@
 # Documentation
 
- This documentation page comprises v0.3.0. For the documentation of v1.0.0 and onwards, see the [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md) here.
+ This documentation page comprises v0.3.0 and below. For the documentation of v1.0.0 and onwards, see the [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md) here.
 
  The aoe2.net API has two general API endpoints which we can send requests to:
  
