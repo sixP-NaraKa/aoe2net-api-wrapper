@@ -1,5 +1,7 @@
 # Documentation
 
+ This documentation page comprises v1.0.0+. For the documentation of up to and including v0.3.0, see the [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs_up_to_v0.3.0.md) here.
+
  The aoe2.net API has two general API endpoints which we can send requests to:
  
  - `/api` -- for general requests, available in JSON format
@@ -12,12 +14,12 @@
  The wrapper provides them solely as text.
  
  
- `/api` functions
+ `/api` functions (`class API`)
  -
  
  All the applicable functions which use `**kwargs` `raise KeyError` if the optional additional arguments supplied don't exist.
  
- - `ab_get_strings(game, json)`
+ - `get_strings(game, json)`
  
     Returns a list of strings used by the API.
  
@@ -26,7 +28,7 @@
     - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True
  
- - `ab_get_leaderboard(leaderboard_id, start, count, json, **kwargs)`
+ - `get_leaderboard(leaderboard_id, start, count, json, **kwargs)`
  
     Requests the data (players) of the given leaderboard, specified by the 'leaderboard_id'.
  
@@ -51,15 +53,16 @@
     Example:
     
 ```python
-import aoe2netapi as aoe
+from aoe2netapi import API
      
-result = aoe.ab_get_leaderboard(leaderboard_id=3, count=100, json=True)
+api = API()
+result = api.get_leaderboard(leaderboard_id=3, count=100, json=True)
 print(result)
 ```
  This will return and print the top 100 players of the 1v1 RM leaderboard in JSON format.
     
     
- - `ab_get_open_lobbies(game, json)`
+ - `get_open_lobbies(game, json)`
  
     Requests all open lobbies.
  
@@ -68,7 +71,7 @@ print(result)
     - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True
  
- - `ab_get_last_match(steam_id, profile_id, json)`
+ - `get_last_match(steam_id, profile_id, json)`
  
     Requests the last match a player started playing.
     This will be the current match if they still are in game.
@@ -85,7 +88,7 @@ print(result)
     Raises:
     - `Aoe2NetException` - Either `steam_id` or `profile_id` required.
  
- - `ab_get_match_history(start, count, steam_id, profile_id, json)`
+ - `get_match_history(start, count, steam_id, profile_id, json)`
  
     Requests the match history for a player.
 
@@ -104,7 +107,7 @@ print(result)
     Raises:
     - `Aoe2NetException` - if `count` is more than 1000 || Either `steam_id` or `profile_id` required.
  
- - `ab_get_rating_history(leaderboard_id, start, count, steam_id, profile_id, json)`
+ - `get_rating_history(leaderboard_id, start, count, steam_id, profile_id, json)`
  
     Requests the rating history for a player.
 
@@ -125,7 +128,7 @@ print(result)
     Raises:
     - `Aoe2NetException` - if `count` is more than 1000 || Either `steam_id` or `profile_id` required.
  
- - `ab_get_matches(count, json, **kwargs)`
+ - `get_matches(count, json, **kwargs)`
  
     Requests the match history in a optionally given time frame (globally).
 
@@ -142,23 +145,23 @@ print(result)
     Raises:
     - `Aoe2NetException` - if `count` is more than 1000
  
- - `ab_get_match(uuid, match_id, json)`
+ - `get_match(uuid, match_id, json)`
  
     Requests a single match (globally).
 
     Either 'uuid' or 'match_id' required.
  
     Parameters:
-    - `uuid` (str) -- the Match UUID, viewable via a function such as 'ab_get_matches()'. 
+    - `uuid` (str) -- the Match UUID, viewable via a function such as 'get_matches()'. 
     Takes precedence over 'match_id'.
-    - `match_id` (str) -- the Match ID, viewable via a function such as 'ab_get_matches()'.
+    - `match_id` (str) -- the Match ID, viewable via a function such as 'get_matches()'.
     - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
     Defaults to True.
     
     Raises:
     - `Aoe2NetException` - Either `uuid` or `match_id` required
  
- - `ab_get_num_online(game, json)`
+ - `get_num_online(game, json)`
  
     Requests the current player numbers of AoE2: DE.
  
@@ -168,7 +171,7 @@ print(result)
     Defaults to True.
  
  
- `/api/nightbot` functions
+ `/api/nightbot` functions (`class Nightbot`)
  -
  
  All the applicable functions which use `**kwargs` `raise KeyError` if the optional additional arguments supplied don't exist.
@@ -187,7 +190,7 @@ print(result)
     - `Aoe2NetException` - Either `search`, `steam_id` or `profile_id` required.
     
  
- - `nb_get_rank_details(search, steam_id, profile_id, leaderboard_id)`
+ - `get_rank_details(search, steam_id, profile_id, leaderboard_id)`
  
     Requests the rank details of a player, specified by the 'leaderboard_id'.
 
@@ -196,7 +199,7 @@ print(result)
     The request response is only available as pure text.
     
  
- - `nb_get_recent_opp(search, steam_id, profile_id, leaderboard_id)`
+ - `get_recent_opp(search, steam_id, profile_id, leaderboard_id)`
  
     Requests the rank details of the most recent opponent of a player (1v1 only).
 
@@ -207,7 +210,7 @@ print(result)
     Returns "Player not found", if no player could be found.
     
  
- - `nb_get_current_match(search, steam_id, profile_id, leaderboard_id, **kwargs)`
+ - `get_current_match(search, steam_id, profile_id, leaderboard_id, **kwargs)`
  
     Requests details about the last match, or current match if still in game, of a player.
 
@@ -221,7 +224,7 @@ print(result)
     - `color` (bool) -- The color the players picked in game to play as. Defaults to False.
     
  
- - `nb_get_current_civs(search, steam_id, profile_id, leaderboard_id)`
+ - `get_current_civs(search, steam_id, profile_id, leaderboard_id)`
  
     Requests details about the civilisations from the current (if still in game) or last match.
 
@@ -232,7 +235,7 @@ print(result)
     Returns "Player not found", if no player could be found.
     
  
- - `nb_get_current_map(search, steam_id, profile_id, leaderboard_id)`
+ - `get_current_map(search, steam_id, profile_id, leaderboard_id)`
  
     Requests the current map name of a player.
 
