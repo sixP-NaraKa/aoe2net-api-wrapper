@@ -1,6 +1,36 @@
 # Changelog
 
-Changes are listed here. The latest version is currently v0.3.0.
+Changes are listed here. The latest version is currently v1.0.0.
+
+v1.0.0 (30.12.2020)
+-
+
+- moved the API base (`ab_...`) and Nightbot base (`nb_...`) request functions into their respective classes (`API`& `Nightbot`)
+    - this changed therefore how the API functions are now called/used
+    - a quick example:
+    ```python
+  import aoe2netapi as aoe
+  
+  api = aoe.API()
+  leaderboard = api.get_leaderboard(leaderboard_id=3, search="TheViper")
+  print(leaderboard)
+
+  nightbot = aoe.Nightbot()
+  rank_details = nightbot.get_rank_details(search="TheViper", leaderboard_id=3)
+  print(rank_details)
+  
+  # OR like this
+  from aoe2netapi import API, Nightbot
+  
+  api = API()
+  leaderboard = api.get_leaderboard(leaderboard_id=3, search="TheViper")
+  print(leaderboard)
+
+  nightbot = Nightbot()
+  rank_details = nightbot.get_rank_details(search="TheViper", leaderboard_id=3)
+  print(rank_details)
+
+    ```
 
 v0.3.0 (24.11.2020)
 -
