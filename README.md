@@ -76,12 +76,12 @@ print(rank_details)
  
  Documentation
  -
- See the documentation on the provided functions here on GitHub: [documentation page.](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md)
+ See the documentation on the provided functions here on GitHub: [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md).
  
- For the documentation for up to and including v0.3.0, see the documentation page here: [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs_up_to_v0.3.0.md)
+ For the documentation for up to and including v0.3.0, see the documentation page here: [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs_up_to_v0.3.0.md).
 
  Changelog
  -
- See the changelog here on GitHub: [changelog page.](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/changelog.md)
+ See the changelog here on GitHub: [changelog page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/changelog.md).
 
 
