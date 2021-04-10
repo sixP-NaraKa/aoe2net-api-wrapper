@@ -13,7 +13,7 @@
  Requirements:
  
  - `requests` >= 2.20.0
- - Python 3.X required
+ - Python 3.X required (3.5+)
  
  Installation
  -
@@ -25,7 +25,7 @@
  
  Example usage
  -
- up to and including v0.3.0:
+ up to and including `v0.3.0`:
  
  ```python
 import aoe2netapi as aoe
@@ -39,7 +39,7 @@ print(rank_details)
 # ...
  ```
 
- v1.0.0 and onwards (see issue [#1](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/issues/1) and the [changelog](https://github.com/sixP-NaraKa/aoe2net-api-wrapper#changelog)) there are two different ways, which lead to the same outcome:
+ `v1.0.0` and onwards (see issue [#1](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/issues/1) and the [changelog](https://github.com/sixP-NaraKa/aoe2net-api-wrapper#changelog)) there are two different ways, which lead to the same outcome:
  
  1.) importing the usual way
  ```python
