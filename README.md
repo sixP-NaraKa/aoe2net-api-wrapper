@@ -83,5 +83,8 @@ print(rank_details)
  Changelog
  -
  See the changelog here on GitHub: [changelog page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/changelog.md).
-
+ 
+ License
+ -
+ MIT License. See [LICENSE](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/LICENSE).
 
