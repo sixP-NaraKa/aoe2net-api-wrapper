@@ -35,6 +35,9 @@ CURRENT_MATCH_URL = NIGHTBOT_BASE_URL + "/match?"
 CURRENT_CIVS_URL = NIGHTBOT_BASE_URL + "/civs?"
 CURRENT_MAP_URL = NIGHTBOT_BASE_URL + "/map?"
 
+# request headers
+headers = {'content-type': 'application/json;charset=UTF-8'}
+
 
 # simple base exception class, to raise errors with
 class Aoe2NetException(Exception):
@@ -51,10 +54,6 @@ def _is_valid_kwarg(provided: dict, available: dict):
 
     Updates, if no difference found, the dictionary 'available'.
 
-    We don't need to return the updated dictionary since we are calling the dict by reference,
-    i.e. the original dict will be changed. ("call by reference", and not "pass by value")
-    https://medium.com/@meghamohan/mutable-and-immutable-side-of-python-c2145cf72747
-
     Parameters
     ----------
     provided : `dict`
@@ -68,9 +67,10 @@ def _is_valid_kwarg(provided: dict, available: dict):
 
     diff = provided.keys() - available.keys()
     if diff:  # if there are differences
-        msg = "invalid optional keyword argument passed: {}".format(diff)
+        msg = "invalid optional keyword argument passed: {}. Available arguments: {}".format(diff, list(available.keys()))
         raise KeyError(msg)
     available.update(provided)
+    return available
 
 
 def _get_request_response(url: str, params: dict = None, json: bool = True):
@@ -97,8 +97,6 @@ def _get_request_response(url: str, params: dict = None, json: bool = True):
     :raises Aoe2NetExecution:
         if status code of the response is not 200
     """
-
-    headers = {'content-type': 'application/json;charset=UTF-8'}
 
     try:
         response = requests.get(url, params=params, headers=headers)
@@ -202,7 +200,7 @@ class API:
                     "steam_id": "",
                     "profile_id": "",
                     }
-        _is_valid_kwarg(kwargs, optionals)
+        optionals = _is_valid_kwarg(kwargs, optionals)
 
         params = {"game": "aoe2de", "leaderboard_id": leaderboard_id, "start": start, "count": count}
         params.update(optionals)
@@ -391,7 +389,7 @@ class API:
             raise Aoe2NetException("'count' has to be 1000 or less.")
 
         optionals = {"since": ""}
-        _is_valid_kwarg(kwargs, optionals)
+        optionals = _is_valid_kwarg(kwargs, optionals)
 
         params = {"count": count}
         params.update(optionals)
@@ -608,7 +606,7 @@ class Nightbot:
         optionals = {
                     "color": False
                     }
-        _is_valid_kwarg(kwargs, optionals)
+        optionals = _is_valid_kwarg(kwargs, optionals)
 
         params = {"flag": "false", "search": search, "steam_id": steam_id, "profile_id": profile_id, "leaderboard_id": leaderboard_id}
         params.update(optionals)

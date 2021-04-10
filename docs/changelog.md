@@ -1,6 +1,15 @@
 # Changelog
 
-Changes are listed here. The latest version is currently v1.0.0.
+Changes are listed here. The latest version is currently v1.1.0.
+
+v1.1.0 (10.04.2021)
+-
+
+- helper function `_get_request_response(...)`:
+    - moved the request headers `headers = {'content-type': 'application/json;charset=UTF-8'}` outside (in the global scope)
+- helper function `_is_valid_kwarg(...)`:
+    - now explicitly returning the updated dictionary (just in case)
+    - additional error output, specifying which keyword arguments are possible
 
 v1.0.0 (30.12.2020)
 -
