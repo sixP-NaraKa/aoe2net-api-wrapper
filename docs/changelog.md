@@ -1,6 +1,11 @@
 # Changelog
 
-Changes are listed here. The latest version is currently v1.1.0.
+Changes are listed here. The latest version is currently v1.1.1.
+
+v1.1.1 (07.11.2021)
+-
+
+- adjusted documentation (method docstrings + overall documentation under docs/docs.md) to incorporate new 'Empire Wars' game modes (leaderboard IDs)
 
 v1.1.0 (10.04.2021)
 -
