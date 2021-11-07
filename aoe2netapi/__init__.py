@@ -18,7 +18,7 @@ if version_info.major < 3:
 # import the needed classes (also the custom exception)
 from .aoe2 import API, Nightbot, Aoe2NetException
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 __license__ = """
 MIT License
 
