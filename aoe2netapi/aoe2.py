@@ -155,7 +155,8 @@ class API:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
         start : `int`
             Specifies the start point for which to extract data at. Defaults to 1.
 
@@ -319,7 +320,8 @@ class API:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
         start : `int`
             Specifies the start point for which to extract data at. Defaults to 0 (most recent match).
 
@@ -490,7 +492,8 @@ class Nightbot:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
 
         :return:
             the response.text
@@ -537,7 +540,8 @@ class Nightbot:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
 
         :return:
             the response.text
@@ -584,7 +588,8 @@ class Nightbot:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
         **kwargs : `dict`
             Additional optional arguments.
 
@@ -646,7 +651,8 @@ class Nightbot:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
 
         :return:
             the response.text
@@ -693,7 +699,8 @@ class Nightbot:
 
             Possible IDs:
 
-            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+            0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map,
+            13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
 
         :return:
             the response.text

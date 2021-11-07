@@ -34,7 +34,7 @@
  
     Parameters:
     - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map, 13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'search', 'steam_id' or 'profile_id' are defined.
     - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 10.
@@ -115,7 +115,7 @@ print(result)
  
     Parameters:
     - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map, 13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
     - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'steam_id' or 'profile_id' are defined.
     - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 100.
@@ -184,7 +184,7 @@ print(result)
         Takes precedence over both 'search' and 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.     
     - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map
+    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map, 13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
     
     Raises:
     - `Aoe2NetException` - Either `search`, `steam_id` or `profile_id` required.
