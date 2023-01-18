@@ -6,7 +6,7 @@ with open("README.md") as f:
 
 setup(
     name="aoe2netapi-wrapper",
-    version="1.1.1",
+    version="2.0.0",
     description="A simple and basic Python 3 API wrapper for the https://aoe2.net/#api API.",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -16,9 +16,10 @@ setup(
     author_email="sixpaths-naraka@protonmail.com",
     packages=find_packages(),
     install_requires=[
-        "requests>=2.20.0"
+        "requests>=2.20.0",
+        "dataclasses-json>=0.5.7"
     ],
-    python_requires=">=3.5",
+    python_requires=">=3.7",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",

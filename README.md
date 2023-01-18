@@ -7,13 +7,12 @@
  
  See https://aoe2.net/#api and https://aoe2.net/#nightbot for the aoe2.net API (documentation) directly.
  
- This wrapper solely supports requesting the data from the aoe2.net API.
- Further data manipulation/extraction required from the requested data has to be done by you, the user.
  
  Requirements:
  
  - `requests` >= 2.20.0
- - Python 3.X required (3.5+)
+ - `dataclasses-json`>=0.5.7
+ - Python 3.7+ required
  
  Installation
  -
@@ -25,43 +24,15 @@
  
  Example usage
  -
- up to and including `v0.3.0`:
- 
- ```python
-import aoe2netapi as aoe
-
-leaderboard = aoe.ab_get_leaderboard(leaderboard_id=3, search="TheViper")
-print(leaderboard)
-
-rank_details = aoe.nb_get_rank_details(search="TheViper", leaderboard_id=3)
-print(rank_details)
-
-# ...
- ```
 
  `v1.0.0` and onwards (see issue [#1](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/issues/1) and the [changelog](https://github.com/sixP-NaraKa/aoe2net-api-wrapper#changelog)) there are two different ways, which lead to the same outcome:
- 
- 1.) importing the usual way
+
  ```python
-import aoe2netapi as aoe
-
-api = aoe.API()
-leaderboard = api.get_leaderboard(leaderboard_id=3, search="TheViper")
-print(leaderboard)
-
-nightbot = aoe.Nightbot()
-rank_details = nightbot.get_rank_details(search="TheViper", leaderboard_id=3)
-print(rank_details)
-
-# ...
-```
-
- 2.) via their respective classes
- ```python
-from aoe2netapi import API, Nightbot
+from aoe2netapi import API, Nightbot, LeaderboardId
+from aoe2netapi.constants import LeaderboardId, EventLeaderboardId, Game
 
 api = API()
-leaderboard = api.get_leaderboard(leaderboard_id=3, search="TheViper")
+leaderboard = api.get_leaderboard(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="TheViper")
 print(leaderboard)
 
 nightbot = Nightbot()
@@ -78,7 +49,7 @@ print(rank_details)
  -
  See the documentation on the provided functions here on GitHub: [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs.md).
  
- For the documentation for up to and including v0.3.0, see the documentation page here: [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs_up_to_v0.3.0.md).
+ For the documentation for previous versions, see the documentation page here: [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/).
 
  Changelog
  -

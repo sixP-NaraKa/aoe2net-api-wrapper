@@ -13,16 +13,18 @@ MIT License. See `__license__` for more information.
 from sys import version_info
 
 if version_info.major < 3:
-    raise Exception("Python 3.X required.")
+    raise Exception("Python 3.7+ required.")
 
 # import the needed classes (also the custom exception)
+# the others (models, constants) can be imported the usual way, e.g.:
+# "from aoe2netapi.models import ..." or "from aoe2netapi.constants import ..."
 from .aoe2 import API, Nightbot, Aoe2NetException
 
-__version__ = "1.1.1"
+__version__ = "2.0.0"
 __license__ = """
 MIT License
 
-Copyright (c) 2021 sixP-NaraKa
+Copyright (c) 2020-present sixP-NaraKa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
