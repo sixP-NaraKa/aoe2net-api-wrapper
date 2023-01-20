@@ -126,7 +126,7 @@ class API:
 
         Parameters
         ----------
-        game : :class:`AoEGame`
+        game : :class:`Game`
             The game for which to extract the list of strings.
             Note: For the time being, `AoE1:DE` and `AoE3:DE` throw a 404 here.
 
@@ -147,7 +147,7 @@ class API:
 
         Parameters
         ----------
-        leaderboard_id : :class:`AoE2NetLeaderboardId` | :class:`AoE2NetEventLeaderboardId`
+        leaderboard_id : :class:`LeaderboardId` | :class:`EventLeaderboardId`
             The leaderboard in which to extract data in.
         start : `int`
             Specifies the start point for which to extract data at. Defaults to 1.
@@ -219,7 +219,7 @@ class API:
 
         Parameters
         ---------
-        game : :class:`AoEGame`
+        game : :class:`Game`
             The game for which to extract the match history.
         start : `int`
             Specifies the start point for which to extract data at. Defaults to 0 (most recent match).
@@ -269,12 +269,10 @@ class API:
 
         Parameters
         ---------
-        leaderboard_id : :class:`AoE2NetLeaderboardId` | :class:`AoE2NetEventLeaderboardId`
+        leaderboard_id : :class:`LeaderboardId` | :class:`EventLeaderboardId`
             The leaderboard in which to extract data in.
         start : `int`
             Specifies the start point for which to extract data at. Defaults to 0 (most recent match).
-
-            Ignored if 'steam_id' or 'profile_id' are defined.
         count : `int`
             Specifies how many entries of the given leaderboard should be extracted,
             if able to find with the given criteria. Defaults to 100.
@@ -332,7 +330,7 @@ class Nightbot:
 
         Parameters
         ----------
-        leaderboard_id : :class:`AoE2NetLeaderboardId` | :class:`AoE2NetEventLeaderboardId`
+        leaderboard_id : :class:`LeaderboardId` | :class:`EventLeaderboardId`
             The leaderboard in which to extract data in.
         search : `str`
             The name of the to be searched player. Returns the highest rated player found.
@@ -392,7 +390,7 @@ class Nightbot:
             Takes precedence over 'search'.
 
             Defaults to an empty string.
-        game : :class:`AoEGame`
+        game : :class:`Game`
             The game for which to extract the match details. If 'search' is used, this is required.
         **kwargs : `dict`
             Additional optional arguments.
@@ -402,7 +400,7 @@ class Nightbot:
             color : `bool`
                 The color the players picked in game to play as. Defaults to True.
             flag : `bool`
-                The flags of the player. Defaults to True.
+                The flags of the players. Defaults to True.
 
         :return:
             the response.text

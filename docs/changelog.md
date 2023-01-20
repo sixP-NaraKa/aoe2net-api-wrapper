@@ -1,6 +1,34 @@
 # Changelog
 
-Changes are listed here. The latest version is currently v1.1.1.
+Changes are listed here. The latest version is currently v2.0.0.
+
+v2.0.0 (21.01.2023)
+-
+- adapted implementation to incorporate new aoe2.net API functionality:
+    - removal of deprecated API endpoints (both general API and Nightbot API)
+    - adding of new (request) parameters to existing functions (where applicable)
+    
+Additionally, the API request responses are now mapped to user-friendly Python objects, which are represented via Python's 3.7+ builtin `dataclasses`:
+
+````python
+from aoe2netapi import API
+from aoe2netapi.constants import LeaderboardId
+from aoe2netapi.models import Leaderboard  # MatchHistory, RatingHistory, ...
+
+
+api = API()
+leaderboard: Leaderboard = api.get_leaderboard(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="TheViper")
+print(leaderboard)
+# Leaderboard(total=42997, leaderboard_id=3, start=1, count=6,
+#   players=[LeaderboardPlayer(...), ...], game='aoe2de', is_event_leaderboard=False)
+
+for player in leaderboard.players:  # access to all properties via dot-notation
+    print(player.rank, player.name, player.rating, player.highest_rating, ...)
+````
+
+Therefore with this change, the Python version requirement is 3.7+.
+
+See the documentation for more information.
 
 v1.1.1 (07.11.2021)
 -

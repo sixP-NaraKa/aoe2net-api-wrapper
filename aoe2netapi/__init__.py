@@ -15,7 +15,7 @@ from sys import version_info
 if version_info.major < 3:
     raise Exception("Python 3.7+ required.")
 
-# import the needed classes (also the custom exception)
+# import the base classes and custom exception)
 # the others (models, constants) can be imported the usual way, e.g.:
 # "from aoe2netapi.models import ..." or "from aoe2netapi.constants import ..."
 from .aoe2 import API, Nightbot, Aoe2NetException

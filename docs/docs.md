@@ -1,14 +1,13 @@
 # Documentation
 
- This documentation page comprises v1.0.0+. For the documentation of up to and including v0.3.0, see the [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs/docs_up_to_v0.3.0.md) here.
+ This documentation page comprises v2.0.0+. For the documentation of the previous versions see the [documentation page](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/blob/main/docs).
 
  The aoe2.net API has two general API endpoints which we can send requests to:
  
  - `/api` -- for general requests, available in JSON format
  - `/api/nightbot` -- made for Twitch.tv bots (simple commands), only available as pure text
  
- This api wrapper provides the requested data for the `/api` endpoint requests in JSON format,
- or as the plain response object if needed.
+ This api wrapper provides the requested data for the `/api` endpoint requests in mapped Python objects (dataclasses).
  
  The `/api/nightbot` endpoints are only available from the API as pure text.
  The wrapper provides them solely as text.
@@ -19,178 +18,137 @@
  
  All the applicable functions which use `**kwargs` `raise KeyError` if the optional additional arguments supplied don't exist.
  
- - `get_strings(game, json)`
+ - `get_strings(game) -> Game`
  
     Returns a list of strings used by the API.
  
     Parameters:
-    - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True
+    - `game` (Game) -- The game to request for.
+    
+    Example:
+    ````python
+    from aoe2netapi import API
+    from aoe2netapi.constants import Game
+     
+    api = API()
+    strings = api.get_strings(game=Game.AOE_TWO_DE)
+    print(strings)
+    # Strings<language="en", age=[StringsItem(id=0, value="Standard"), ...], ...>
+    ````
  
- - `get_leaderboard(leaderboard_id, start, count, json, **kwargs)`
+ - `get_leaderboard(leaderboard_id, start, count, **kwargs) -> Leaderboard`
  
     Requests the data (players) of the given leaderboard, specified by the 'leaderboard_id'.
  
     Parameters:
-    - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map, 13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
-    - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
+    - `leaderboard_id` (LeaderboardId | EventLeaderboardId) -- The leaderboard in which to extract data in.
+    - `start` (int) -- Specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'search', 'steam_id' or 'profile_id' are defined.
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 10.
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
+    - `count` (int) -- Specifies how many entries starting at `start` should be extracted. Defaults to 10.
     - `**kwargs` -- Additional optional arguments.
     
-        - `search` (str) -- specifies a player name to search for. All players found that match the given name will be returned.
+        - `search` (str) -- Specifies a player name to search for. All players found that match the given name will be returned.
         - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
         Takes precedence over both 'search' and 'profile_id'.
         - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.
         
     Raises:
-    - `Aoe2NetException` - if `count` is more than 10000
+    - `Aoe2NetException` - if `count` is more than 10000 or required parameters are missing
         
     Example:
     
-```python
-from aoe2netapi import API
-     
-api = API()
-result = api.get_leaderboard(leaderboard_id=3, count=100, json=True)
-print(result)
-```
- This will return and print the top 100 players of the 1v1 RM leaderboard in JSON format.
-    
-    
- - `get_open_lobbies(game, json)`
- 
-    Requests all open lobbies.
- 
-    Parameters:
-    - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True
- 
- - `get_last_match(steam_id, profile_id, json)`
- 
-    Requests the last match a player started playing.
-    This will be the current match if they still are in game.
+    ````python
+    from aoe2netapi import API
+    from aoe2netapi.models import Leaderboard
+    from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
+         
+    api = API()
+    leaderboard: Leaderboard = api.get_leaderboard(leaderboard_id=LeaderboardId.AOE_TWO_RM, count=100)
+    print(leaderboard)
+    # Leaderboard<total = 43055, leaderboard_id = 3, start = 1, count = 100, players = [...],
+    #             game="aoe2de", is_event_leaderboard=False>
+   
+    for player in leaderboard.players:  # player is of type 'LeaderboardPlayer'
+       print(player.rank, player.name, player.rating, player.highest_rating, ...)
+    ````
 
-    Either 'steam_id' or 'profile_id' required.
- 
-    Parameters:
-    - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
-    Takes precedence over 'profile_id'.
-    - `profile_id` (str) -- The profile ID. (ex: 459658)
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
-    
-    Raises:
-    - `Aoe2NetException` - Either `steam_id` or `profile_id` required.
- 
- - `get_match_history(start, count, steam_id, profile_id, json)`
+ - `get_match_history(game, start, count, steam_id, profile_id) -> List[MatchHistory]`
  
     Requests the match history for a player.
 
-    Either 'steam_id' or 'profile_id' required.
+    'game' required, as well as either 'steam_id' or 'profile_id'.
+    
+    ##### Note:
+    Encapsulates all properties for AoE2:DE and AoE4. For the other available games, no data could be found via the API during the implementation (19.01.2023) - 
+    that is why the property 'unknown' (a `dict`) is present, which captures all unknown properties that might come up.
  
     Parameters:
-    - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
+    - `game` (Game) -- The game to request for.
+    - `start` (int) -- Specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'steam_id' or 'profile_id' are defined.
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 5.
+    - `count` (int) -- Specifies how many entries starting at `start` should be extracted. Defaults to 5.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
     
     Raises:
-    - `Aoe2NetException` - if `count` is more than 1000 || Either `steam_id` or `profile_id` required.
+    - `Aoe2NetException` - if `count` is more than 1000 || 'game' required, as well as either 'steam_id' or 'profile_id'.
+    
+    Example:
+    ````python
+    from typing import List
+   
+    from aoe2netapi import API
+    from aoe2netapi.models import MatchHistory
+    from aoe2netapi.constants import Game
+     
+    api = API()
+    match_history: List[MatchHistory] = api.get_match_history(game=Game.AOE_TWO_DE, profile_id="459658")
+    print(match_history)
+   
+    for match in match_history:
+       ...
+    ````
  
- - `get_rating_history(leaderboard_id, start, count, steam_id, profile_id, json)`
+ - `get_rating_history(leaderboard_id, start, count, steam_id, profile_id) -> RatingHistory`
  
     Requests the rating history for a player.
 
     Either 'steam_id' or 'profile_id' required.
  
     Parameters:
-    - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map, 13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
-    - `start` (int) -- specifies the start point for which to extract data at. Defaults to 1 (first entry).
+    - `leaderboard_id` (LeaderboardId | EventLeaderboardId) -- The leaderboard in which to extract data in.
+    - `start` (int) -- Specifies the start point for which to extract data at. Defaults to 1 (first entry).
     Ignored if 'steam_id' or 'profile_id' are defined.
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 100.
+    - `count` (int) -- Specifies how many entries starting at `start` should be extracted. Defaults to 100.
     - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
     Takes precedence over 'profile_id'.
     - `profile_id` (str) -- The profile ID. (ex: 459658)
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
     
     Raises:
-    - `Aoe2NetException` - if `count` is more than 1000 || Either `steam_id` or `profile_id` required.
- 
- - `get_matches(count, json, **kwargs)`
- 
-    Requests the match history in a optionally given time frame (globally).
-
-    If 'since' is not set, only the X amount of current past matches (specified by 'count') will be returned.
- 
-    Parameters:
-    - `count` (int) -- specifies how many entries starting at `start` should be extracted. Defaults to 5.
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
-    - `**kwargs` -- Additional optional arguments.
+    - `Aoe2NetException` - if `count` is more than 10000 || Either `steam_id` or `profile_id` required
     
-        - `since` (str | int) -- only shows matches after this timestamp. (ex: 1596775000)
-        
-    Raises:
-    - `Aoe2NetException` - if `count` is more than 1000
- 
- - `get_match(uuid, match_id, json)`
- 
-    Requests a single match (globally).
-
-    Either 'uuid' or 'match_id' required.
- 
-    Parameters:
-    - `uuid` (str) -- the Match UUID, viewable via a function such as 'get_matches()'. 
-    Takes precedence over 'match_id'.
-    - `match_id` (str) -- the Match ID, viewable via a function such as 'get_matches()'.
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
-    
-    Raises:
-    - `Aoe2NetException` - Either `uuid` or `match_id` required
- 
- - `get_num_online(game, json)`
- 
-    Requests the current player numbers of AoE2: DE.
- 
-    Parameters:
-    - `game` (str) -- The game to request for. "aoe2de" or "aoe2hd" available. Defaults to "aoe2de".
-    - `json` (bool) -- whether the request should be returned in JSON format. If set to False, the response object will be returned. 
-    Defaults to True.
+    Example:
+    ````python
+    from aoe2netapi import API
+    from aoe2netapi.models import RatingHistory
+    from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
+     
+    api = API()
+    rating_history: RatingHistory = api.get_rating_history(leaderboard_id=LeaderboardId.AOE_TWO_RM, profile_id="459658")
+    print(rating_history)
+   
+    for rating in rating_history.ratings:
+       ...
+    ````
  
  
  `/api/nightbot` functions (`class Nightbot`)
  -
  
- All the applicable functions which use `**kwargs` `raise KeyError` if the optional additional arguments supplied don't exist.
+ All the applicable functions which use `**kwargs` `raise KeyError` if the optional additional arguments supplied don't exist.    
  
-  
- - All the `/api/nightbot` functions use the following parameters and raise the same exception:
- 
-    - `search` (str) -- specifies a player name to search for. Returns the highest rated player found.
-    - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
-        Takes precedence over both 'search' and 'profile_id'.
-    - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.     
-    - `leaderboard_id` (int) -- the leaderboard in which to extract data in. Defaults to ID 3 (1v1 RM). 
-    0 -> Unranked, 1 -> 1v1 Deathmatch, 2 -> Team Deathmatch, 3 -> 1v1 Random Map, 4 -> Team Random Map, 13 -> 1v1 Empire Wars, 14 -> Team Empire Wars
-    
-    Raises:
-    - `Aoe2NetException` - Either `search`, `steam_id` or `profile_id` required.
-    
- 
- - `get_rank_details(search, steam_id, profile_id, leaderboard_id)`
+ - `get_rank_details(leaderboard_id, search, steam_id, profile_id, flag) -> str`
  
     Requests the rank details of a player, specified by the 'leaderboard_id'.
 
@@ -198,10 +156,34 @@ print(result)
 
     The request response is only available as pure text.
     
+    Returns "Player not found", if no player could be found.
+    
+    Parameters:
+    - `leaderboard_id` (LeaderboardId | EventLeaderboardId) -- The leaderboard in which to extract data in.
+    - `search` (str) -- specifies a player name to search for. Returns the highest rated player found.
+    - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
+        Takes precedence over both 'search' and 'profile_id'.
+    - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.
+    - `flag` (bool) -- The flags of the players. Defaults to True.
+    
+    Raises:
+    - `Aoe2NetException` - Either `search`, `steam_id` or `profile_id` required
+    
+    Example:
+    ````python
+    from aoe2netapi import Nightbot
+    from aoe2netapi.models import RatingHistory
+    from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
+     
+    nightbot = Nightbot()
+    rating_history: str = nightbot.get_rank_details(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
+    print(rating_history)
+    # GL.TheViper (2688) Rank #4, has played 1,542 games with a 65% winrate, -1 streak, and 4 drops
+    ````
  
- - `get_recent_opp(search, steam_id, profile_id, leaderboard_id)`
+ - `get_current_or_last_match(search, steam_id, profile_id, game, **kwargs) -> str`
  
-    Requests the rank details of the most recent opponent of a player (1v1 only).
+    Requests details about the current or last match of a player.
 
     Either 'search', 'steam_id' or 'profile_id' required.
 
@@ -209,39 +191,26 @@ print(result)
 
     Returns "Player not found", if no player could be found.
     
- 
- - `get_current_match(search, steam_id, profile_id, leaderboard_id, **kwargs)`
- 
-    Requests details about the last match, or current match if still in game, of a player.
-
-    Either 'search', 'steam_id' or 'profile_id' required.
-
-    The request response is only available as pure text.
-
-    Returns "Player not found", if no player could be found.
+    Parameters:
+    - `search` (str) -- specifies a player name to search for. Returns the highest rated player found.
+    - `steam_id` (str) -- The steamID64 of a player. (ex: 76561199003184910). 
+        Takes precedence over both 'search' and 'profile_id'.
+    - `profile_id` (str) -- The profile ID. (ex: 459658) Takes precedence over 'search'.
+    - `game` (Game) -- The game for which to extract the match details. If 'search' is used, this is required.
+    - `**kwargs` -- Additional optional arguments.
+        - `color` (bool) -- The color the players picked in game to play as. Defaults to True.
+        - `flag` (bool) -- The flags of the players. Defaults to True.
+        
+    Raises:
+    - `Aoe2NetException` - Either `search`, `steam_id` or `profile_id` required || `search` used but without `game` specified
     
-    Additional Parameter:
-    - `color` (bool) -- The color the players picked in game to play as. Defaults to False.
-    
- 
- - `get_current_civs(search, steam_id, profile_id, leaderboard_id)`
- 
-    Requests details about the civilisations from the current (if still in game) or last match.
-
-    Either 'search', 'steam_id' or 'profile_id' required.
-
-    The request response is only available as pure text.
-
-    Returns "Player not found", if no player could be found.
-    
- 
- - `get_current_map(search, steam_id, profile_id, leaderboard_id)`
- 
-    Requests the current map name of a player.
-
-    Either 'search', 'steam_id' or 'profile_id' required.
-
-    The request response is only available as pure text.
-
-    Returns "Player not found", if no player could be found.
+    Example:
+    ````python
+    from aoe2netapi import Nightbot
+    from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
+     
+    nightbot = Nightbot()
+    rating_history: str = nightbot.get_current_or_last_match(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
+    print(rating_history)
+    ````
     

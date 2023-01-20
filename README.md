@@ -11,7 +11,7 @@
  Requirements:
  
  - `requests` >= 2.20.0
- - `dataclasses-json`>=0.5.7
+ - `dataclasses-json` == 0.5.7
  - Python 3.7+ required
  
  Installation
@@ -24,25 +24,26 @@
  
  Example usage
  -
-
- `v1.0.0` and onwards (see issue [#1](https://github.com/sixP-NaraKa/aoe2net-api-wrapper/issues/1) and the [changelog](https://github.com/sixP-NaraKa/aoe2net-api-wrapper#changelog)) there are two different ways, which lead to the same outcome:
-
  ```python
-from aoe2netapi import API, Nightbot, LeaderboardId
-from aoe2netapi.constants import LeaderboardId, EventLeaderboardId, Game
+from aoe2netapi import API, Nightbot
+from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
+from aoe2netapi.models import Leaderboard
 
+# API class
 api = API()
-leaderboard = api.get_leaderboard(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="TheViper")
+leaderboard: Leaderboard = api.get_leaderboard(leaderboard_id=LeaderboardId.AOE_TWO_RM, count=100)
 print(leaderboard)
+# Leaderboard<total = 43055, leaderboard_id = 3, start = 1, count = 100, players = [...],
+#             game="aoe2de", is_event_leaderboard=False
 
+for player in leaderboard.players:  # player is of type 'LeaderboardPlayer'
+   print(player.rank, player.name, player.rating, player.highest_rating, ...)
+
+# Nighbot class
 nightbot = Nightbot()
-rank_details = nightbot.get_rank_details(search="TheViper", leaderboard_id=3)
-print(rank_details)
-
-# or simply via 'chaining', like this
-# leaderboard = API().get_leaderboard(leaderboard_id=3, search="TheViper")
-
-# ...
+rating_history: str = nightbot.get_current_or_last_match(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
+print(rating_history)
+# GL.TheViper (2688) Rank #4, has played 1,542 games with a 65% winrate, -1 streak, and 4 drops
  ```
  
  Documentation
