@@ -172,12 +172,11 @@
     Example:
     ````python
     from aoe2netapi import Nightbot
-    from aoe2netapi.models import RatingHistory
     from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
      
     nightbot = Nightbot()
-    rating_history: str = nightbot.get_rank_details(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
-    print(rating_history)
+    rank_details: str = nightbot.get_rank_details(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
+    print(rank_details)
     # GL.TheViper (2688) Rank #4, has played 1,542 games with a 65% winrate, -1 streak, and 4 drops
     ````
  
@@ -210,7 +209,7 @@
     from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
      
     nightbot = Nightbot()
-    rating_history: str = nightbot.get_current_or_last_match(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
-    print(rating_history)
+    current_or_last_match: str = nightbot.get_current_or_last_match(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
+    print(current_or_last_match)
     ````
     
