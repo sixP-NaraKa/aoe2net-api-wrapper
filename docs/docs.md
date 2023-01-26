@@ -206,10 +206,10 @@
     Example:
     ````python
     from aoe2netapi import Nightbot
-    from aoe2netapi.constants import LeaderboardId, EventLeaderboardId
+    from aoe2netapi.constants import Game
      
     nightbot = Nightbot()
-    current_or_last_match: str = nightbot.get_current_or_last_match(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
+    current_or_last_match: str = nightbot.get_current_or_last_match(search="GL.TheViper", game=Game.AOE_TWO_DE)
     print(current_or_last_match)
     ````
     
