@@ -39,7 +39,7 @@ print(leaderboard)
 for player in leaderboard.players:  # player is of type 'LeaderboardPlayer'
    print(player.rank, player.name, player.rating, player.highest_rating, ...)
 
-# Nighbot class
+# Nightbot class
 nightbot = Nightbot()
 rank_details: str = nightbot.get_rank_details(leaderboard_id=LeaderboardId.AOE_TWO_RM, search="GL.TheViper")
 print(rank_details)
