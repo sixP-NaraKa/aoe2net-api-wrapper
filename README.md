@@ -1,3 +1,9 @@
+# ⚠️ aoe2.net has been shutdown ⚠️
+
+![aoe2.net shutdown message](https://github.com/user-attachments/assets/bfce43f7-90be-48f7-a91d-53afaee5a7fc)
+
+The aoe2.net website has been sunset and therefore this wrapper does _not_ work anymore.
+
 # aoe2net-api-wrapper
  A simple and basic Python 3 https://aoe2.net/ API wrapper for sending `GET requests`.
  
